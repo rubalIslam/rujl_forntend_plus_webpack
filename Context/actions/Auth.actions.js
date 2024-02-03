@@ -1,4 +1,6 @@
-import jwt_decode from "jwt-decode"
+//import jwt_decode from "jwt-decode"
+import jwtDecode from "jwt-decode"
+//import jwt from 'jsonwebtoken'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Toast from "react-native-toast-message"
 import baseURL from "../../assets/common/baseUrl"
@@ -20,9 +22,13 @@ export const loginUser = (user, dispatch) => {
         if (data) {
             try{
             const token = data.token;
+            console.log("dddd=========",data)
             AsyncStorage.setItem("jwt", token)
-            var decoded = jwt_decode(token)
-            dispatch(setCurrentUser(decoded, user))
+            //const decoded = jwt_decode(token)
+            //const decoded = jwtDecode(token)
+            //console.log("coded:",decoded)
+            //dispatch(setCurrentUser(decoded, user))
+            dispatch(setCurrentUser(token,user))
             }catch(err){
                 console.log("cannot login, jwt token not found",err)
             }

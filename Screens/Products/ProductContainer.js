@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Container, Header, Icon, Item, Input, Text, Heading, Center, NativeBaseProvider } from "native-base";
 import { useFocusEffect } from '@react-navigation/native'
-import baseUrl from "../../assets/common/baseUrl"
+//import baseUrl from "../../assets/common/baseUrl"
 import axios from 'axios';
 
 import ProductList from "./ProductList";

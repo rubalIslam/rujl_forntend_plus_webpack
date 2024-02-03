@@ -4,9 +4,13 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from '@redux-devtools/extension';
 
 import cartItems from './Reducers/cartItem'
+import commentItems from './Reducers/CommentItem';
+import authReducer from './Reducers/authReducer';
 
 const reducers = combineReducers({
-    cartItems: cartItems
+    cartItems: cartItems,
+    commentItems: commentItems,
+    authReducer: authReducer
 })
 
 const store = createStore(

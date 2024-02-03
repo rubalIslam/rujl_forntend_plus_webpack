@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Image, View, StyleSheet, Text, ScrollView, Button, Pressable, FlatList, TextInput,TouchableHighlight } from 'react-native';
+import { Image, View, StyleSheet, Text, ScrollView, Button, FlatList, TextInput } from 'react-native';
 //import { Left, Right, Container, H1 } from 'native-base';
 import Toast from 'react-native-toast-message';
 //import EasyButton from '../../Shared/StyledComponents/EasyButton'
@@ -187,59 +187,31 @@ const SingleProduct = (props) => {
                 {comments.map((comment, index) => (
                     <View key={index} style={styles.card}>
                         <Text style={styles.userName}>{comment.userName}</Text>
-                        
-                            {editingCommentId === comment._id ? (
-                                // Display editable TextInput when editing
-                                <TextInput
-                                    style={{ backgroundColor: 'blue', borderWidth: 1, fontSize: 20, padding: 10 }}
-                                    placeholder="Edit your comment here"
-                                    value={editedComment}
-                                    onChangeText={(text) => setEditedComment(text)}
-                                />
-                            ) : (
-                                // Display comment text when not editing
-                                <Text style={styles.comment}>{comment.comment}</Text>
-                            )}
-                            
-                        
-                        
-                        <View style={styles.alignEnd}>
-                            <Text style={styles.rating}>Rating: {comment.rating}</Text>
-                            <Text style={styles.date}>{comment.date}</Text>
-                        </View>
-                        <View style={styles.commentContainer}>
-                        {editingCommentId === comment._id && (
-                            <View style={styles.alignEnd}>
-                            <TouchableHighlight
-                                style={{ backgroundColor: 'transparent', color: 'green', padding: 5, borderRadius: 5, marginTop: 5, marginRight: 5, width: 50 }}
-                                onPress={() => handleEditComment(comment._id)}
-                            >
-                                <Text style={{ color: 'green',fontWeight: 'bold', }}>Save</Text>
-                            </TouchableHighlight>
-                        
-                            <TouchableHighlight
-                                style={{ backgroundColor: 'transparent', color: 'red', padding: 5, borderRadius: 5, marginTop: 5, marginRight: 5, width: 60 }}
-                                onPress={handleCancelEdit}
-                            >
-                                <Text style={{ color: 'red',fontWeight: 'bold', }}>Cancel</Text>
-                            </TouchableHighlight>
-                            {/*
-                            
-                                <Button title="Save" onPress={() => handleEditComment(comment._id)} />
-                                <Button title="Cancel" style={{backgroundColor: 'green',color:'red'}} onPress={handleCancelEdit} />
-                            
-                            */}
-                            </View>
+                        {editingCommentId === comment._id ? (
+                            // Display editable TextInput when editing
+                            <TextInput
+                                style={styles.commentInput}
+                                placeholder="Edit your comment here"
+                                value={editedComment}
+                                onChangeText={(text) => setEditedComment(text)}
+                            />
+                        ) : (
+                            // Display comment text when not editing
+                            <Text style={styles.comment}>{comment.comment}</Text>
                         )}
-                        {userId === comment.userId && editingCommentId !== comment._id && (
-                                <TouchableHighlight
-                                    style={{ backgroundColor: 'transparent', color: 'blue', padding: 5, borderRadius: 5, marginTop: 5, marginRight: 5, width: 50 }}
-                                    onPress={() => handleStartEdit(comment._id, comment.comment)}
-                                >
-                                    <Text style = {{ color: 'blue', fontWeight: 'bold',textAlign: 'right'}}>Edit</Text>
-                                </TouchableHighlight>
-                            )}
-                        </View>
+
+                        <Text style={styles.rating}>Rating: {comment.rating}</Text>
+                        <Text style={styles.date}>{comment.date}</Text>
+
+                        {/* Edit and Cancel buttons when editing, or Edit button when not editing */}
+                        {editingCommentId === comment._id ? (
+                            <>
+                                <Button title="Save" onPress={() => handleEditComment(comment._id)} />
+                                <Button title="Cancel" onPress={handleCancelEdit} />
+                            </>
+                        ) : (
+                            <Button title="Edit" style={{ float: "right", width: 10}} onPress={() => handleStartEdit(comment._id, comment.comment)} />
+                        )}
                         {/*
                         {
                             comments.map((comment, index) => {
@@ -259,9 +231,9 @@ const SingleProduct = (props) => {
                         }
                         */}
                     </View>
-                ))
+                    ))
                 }
-                {/*
+            {/*
             <FlatList
                 data={comments}
                 keyExtractor={(comment) => comment.userId.toString()}
@@ -275,28 +247,23 @@ const SingleProduct = (props) => {
                 )}
             />
                 */}
-                < TextInput
-                    style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        margin: 10,
-                        padding: 10,
-                    }}
-                    placeholder="Type your comment here"
-                    value={comments["comment"]}
-                    onChangeText={(text) => setComment(text)}
-                />
+                    < TextInput
+                style = {{
+                    height: 40,
+                    borderColor: 'gray',
+                    borderWidth: 1,
+                    margin: 10,
+                    padding: 10,
+                }}
+                placeholder="Type your comment here"
+                value={comments["comment"]}
+                onChangeText={(text) => setComment(text)}
+            />
 
-                <Pressable 
+                <Button
+                    title="Add Comment"
                     onPress={handleAddComment}
-                    style={{ 
-                        backgroundColor: 'lightblue', 
-                        color: 'white', 
-                        padding: 5, borderRadius: 5, marginBottom: 5, marginRight: 5, width: "100%", alignItems: "center" }}
-                >
-                    <Text style={{color: "white"}}>add comment</Text>
-                </Pressable>
+                />
             </View>
         </ScrollView >
     )
@@ -436,22 +403,7 @@ const styles = StyleSheet.create({
     },
     date: {
         color: 'blue'
-    },
-    commentContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-    },
-    alignEnd: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    pressButton: { 
-        backgroundColor: 'lightblue', 
-        color: 'white', 
-        padding: 5, borderRadius: 5, marginBottom: 5, marginRight: 5, width: "100%", alignItems: "center" 
-    },
-    editButton: { backgroundColor: 'transparent', color: 'blue', padding: 5, borderRadius: 5, marginTop: 5, marginRight: 5, width: 50 }
-
+    }
 })
 
 export default connect(null, mapToDispatchToProps)(SingleProduct);
